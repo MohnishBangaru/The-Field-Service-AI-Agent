@@ -22,6 +22,10 @@ pip install -e .
 ```bash
 hiya-agent --duration 5
 ```
+OR
+```bash
+hiya-agent --mode ptt
+```
 
 Notes
 -----
