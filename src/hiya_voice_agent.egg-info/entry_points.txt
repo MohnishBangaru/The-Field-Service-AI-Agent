@@ -1,3 +1,0 @@
-[console_scripts]
-hiya-agent = hiya_voice_agent.cli:main
-hiya-web = hiya_voice_agent.web:run
