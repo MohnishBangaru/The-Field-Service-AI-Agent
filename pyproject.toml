@@ -3,12 +3,11 @@ requires = ["setuptools>=68", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "hiya-voice-agent"
-version = "0.1.0"
-description = "OpenAI-only LangChain voice agent (STT+LLM+TTS)"
-authors = [{ name = "Hiya", email = "dev@example.com" }]
+name = "field-service-agent"
+version = "0.2.0"
+description = "Voice assistant for field service technicians: speech in, tool-calling LLM, speech out"
 readme = "README.md"
-requires-python = ">=3.10"
+requires-python = ">=3.11"
 license = { text = "MIT" }
 dependencies = [
   "langchain>=0.3.0",
@@ -19,20 +18,38 @@ dependencies = [
   "ddgs>=1.1.7",
   "sounddevice>=0.4.7",
   "numpy>=1.26",
-  "webrtcvad>=2.0.10",
+  "pydantic>=2.7.0",
   "pydantic-settings>=2.4.0",
-  "python-dotenv>=1.0.1",
-  "tenacity>=8.3.0"
+  "tenacity>=8.3.0",
 ]
 
-[project.urls]
-homepage = "https://example.com/hiya-voice-agent"
+[project.optional-dependencies]
+web = ["fastapi>=0.110.0", "uvicorn>=0.29.0", "python-multipart>=0.0.9"]
+dev = ["pytest>=8.0.0", "ruff>=0.5.0", "mypy>=1.10.0"]
 
 [project.scripts]
-hiya-agent = "hiya_voice_agent.cli:main"
-hiya-web = "hiya_voice_agent.web:run"
+field-agent = "field_service_agent.adapters.cli.main:CommandLine.run"
+field-web = "field_service_agent.adapters.http.app:WebServer.run"
 
 [tool.setuptools.packages.find]
 where = ["src"]
 
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
 
+[tool.ruff]
+line-length = 140
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "N"]
+
+[tool.ruff.lint.isort]
+known-first-party = ["field_service_agent"]
+
+[tool.mypy]
+python_version = "3.12"
+strict = true
+mypy_path = "src"
+ignore_missing_imports = true
